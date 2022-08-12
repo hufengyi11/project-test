@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+// options used by gRPC golang plugin(not related to gRPC gateway)
+option go_package = "test-project/buf";
+// import "google/protobuf/any.proto";
+
+message User {
+    string id = 1;
+    string name = 2;
+    map<string, string> fields = 3;
+}
+
+message CreateUserReq {
+    User user = 1;
+}
+
+message CreateUserRes {
+    User user = 1;
+}
+
+message ListUsersReq {}
+
+message ListUsersRes {
+    User users = 1;
+}
+
+message ColumnReq {
+    string name = 1;
+}
+
+message ColumnRes {
+    bool success = 1;
+}
+
+
+service UserService {
+
+    rpc CreateUser (CreateUserReq) returns (CreateUserRes);
+
+    rpc ListUsers (ListUsersReq) returns (stream ListUsersRes);
+
+    rpc AddNewField(ColumnReq) returns (ColumnRes);
+
+    rpc DeleteNewField(ColumnReq) returns (ColumnRes);
+
+}
